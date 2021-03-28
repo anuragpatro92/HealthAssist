@@ -11,5 +11,5 @@ module.exports.connectDB = function(){
         console.log("========== MONGO DB ERROR ========");
         console.log(err)
     });
-
+    mongoose.set('debug', true);
 }
