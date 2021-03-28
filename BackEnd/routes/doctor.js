@@ -22,14 +22,14 @@ router.post('/auth', async(req, res) => {
 
 router.get('/patientList', async(req, res) => {
   try {
-    const resp = await getAllPatients(req.params.doctor_id);
+    const resp = await getAllPatients(req.query.doctor_id);
     res.status(200).send({
       status: 'success',
       content: resp,
       msg: 'Patient list fetched successfully'
     });
   }catch(e) {
-    res.status(500).send({
+    res.status(404).send({
       status: 'failure',
       content: e,
       msg: e.message

@@ -7,7 +7,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPatientList } from './../../redux/actions/patient-action';
-import { Paper } from '@material-ui/core';
+import { Avatar, Box, Paper, Typography } from '@material-ui/core';
+import PatientInfoCard from './patient-info-card';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -17,17 +18,25 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  paper: {
+        margin: "1rem",
+        padding: "1rem"
+  }
 }));
 
-export default function PatientSelect() {
+export default function PatientSelect(props) {
   const dispatch = useDispatch();
   const patientList = useSelector(state => state.patientReducer.patientList);
   const classes = useStyles();
-  const [patient, setPatient] = useState(null);
+  const {selectedPatient , setSelectedPatient} = props;
+  const [patient, setPatient] = useState(selectedPatient);
 
   const handleChange = (event) => {
-    setPatient(patientList.find(p => p._id === event.target.value));
+    let p = patientList.find(p => p._id === event.target.value)
+    setPatient(p);
+    setSelectedPatient(p);
   };
+  
   useEffect(() => {
       if(!patientList)
         dispatch(getPatientList());
@@ -49,10 +58,7 @@ export default function PatientSelect() {
             )}
         </Select>
       </FormControl>
-      {patient && 
-      <Paper>
-         {JSON.stringify(patient)}
-      </Paper>}
+      {patient && <PatientInfoCard patient={patient}/>}
     </div>
   );
 }

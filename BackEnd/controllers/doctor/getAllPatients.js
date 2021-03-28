@@ -6,7 +6,7 @@ const PatientModel = require('../../models/patients');
 const getAllPatients = (doctor_id) => new Promise(async(resolve, reject) => {
         try {
             let query = DoctorModel
-                        .findOne({ id: doctor_id })
+                        .findOne({ _id: doctor_id })
                         .populate('patients')
                         .select('patients');
             const result = await query.exec();

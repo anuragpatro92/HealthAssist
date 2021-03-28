@@ -14,7 +14,7 @@ export const getPatientList = () => {
     return async(dispatch) => {
         try {
             dispatch(startLoader());
-            let doctor_id = localStorage.getItem('doctor_id')
+            let doctor_id = localStorage.getItem('doctor_id');
             const resp = await axios.get(`${API_BASE}/doctor/patientList`, {
                             params: {doctor_id}
                         });
