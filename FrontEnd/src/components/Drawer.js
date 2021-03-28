@@ -57,30 +57,23 @@ const useStyles = makeStyles((theme) => ({
 export default function SideDrawer(props) {
   const classes = useStyles();
   var history = useHistory();
-  const [projectList, setProjectList] = useState([]);
-  const [showProjects , setShowProjects] = useState(false);
-  const [projectID, setProjectID] = useState("-1");
-  const getProjects = async() => {
-    const resp = await axios.get('/api/projects');
-    if(resp.status === 200) {
-        setProjectList(resp.data)
+  const [routerPath , setRouterPath] = useState('');
+  const [showServices , setShowServices] = useState(false);
+  const services = [
+    {
+       name: "Disease Prediction",
+       path: "disease-prediction"
+    }, 
+    {
+      name: "Drug Recommendation",
+      path: "drug-recommendation"
     }
-  }
+  ]
   useEffect(() => {
     const unlisten = history.listen((location) => {
         let loc = location.pathname.split('/');
-        if(loc[1] === 'project') {
-            setShowProjects(true);
-            setProjectID(loc[2]);
-            return;
-        } 
-        if(loc[1] === '') {
-            getProjects();
-            setShowProjects(false);
-        }
-        setProjectID('-1')
+        setRouterPath(loc[1]);
     })
-    getProjects();
     return () => {
         unlisten();
     }
@@ -111,23 +104,23 @@ export default function SideDrawer(props) {
     </List>
     <List>
       <ListItem button onClick={() => {
-          setShowProjects(!showProjects);
+          setShowServices(!showServices);
       }}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Projects" />
-        {showProjects ? <ExpandMoreIcon/> : <ChevronRightIcon/> }
+        <ListItemText primary="Services" />
+        {showServices ? <ExpandMoreIcon/> : <ChevronRightIcon/> }
       </ListItem>
     </List>
-    {showProjects && 
+    {showServices && 
     <Box pl={2}>
-      {projectList.map(p => <List>
+      {services.map(s => <List>
         <ListItem button onClick={() => {
-            history.push(`/project/${p.id}`);
+            history.push(`/${s.path}`);
         }}
         >
-          <ListItemText primary={p.name} className={p.id === projectID && classes.selected}/>
+          <ListItemText primary={s.name} className={s.path === routerPath && classes.selected}/>
         </ListItem>
       </List>)
       }
