@@ -32,8 +32,11 @@ server.listen(port, () => console.log(`server listening on`,port));
 // var requireAuth = passport.authenticate('jwt', {session: false});
 
 var indexRouter = require('./routes/index');
+var doctorRouter = require('./routes/doctor');
+// var patientRouter = require('./routes/patient');
 
 app.use('/api', indexRouter);
-
+app.use('/api/doctor', doctorRouter);
+// app.use('/api/patient', patientRouter);
 
 module.exports = app;
