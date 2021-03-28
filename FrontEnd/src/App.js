@@ -53,8 +53,8 @@ function App() {
             <Routes/>
         </Container>
       </main>
-        <Loader/>
-        <Messages/>
+      <Loader/>
+      <Messages/>
     </div>
   );
 }

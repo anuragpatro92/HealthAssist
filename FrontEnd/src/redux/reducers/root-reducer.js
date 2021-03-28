@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import utilReducer from './util-reducer';
 import patientReducer from './patient-reducer';
+import metaReducer from './meta-reducer';
+
 
 import {
   RESET_ALL_STATE
@@ -8,7 +10,8 @@ import {
 
 const appReducer = combineReducers({
     utilReducer,
-    patientReducer
+    patientReducer,
+    metaReducer
 });
 
 const rootReducer = (state, action) => {

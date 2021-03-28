@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import PatientSelect from './../../components/patient-select/index';
+import PatientSelect from './../../components/patient-select';
+import SymptomSelect from './../../components/symptom-select';
+import DiseasePredictions from './../../components/disease-predictions';
+
+import { getDiseasePredictions } from './../../services/ds-service';
+import { useDispatch } from 'react-redux';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   resetContainer: {
     padding: theme.spacing(3),
@@ -26,28 +33,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Select Patient', 'Select Symptoms', 'View Results'];
+  return ['Select Patient', 'Select Symptoms', 'View Results', 'Complete'];
 }
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <PatientSelect/>;
-    case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
-    case 2:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
-    default:
-      return 'Unknown step';
-  }
-}
+
 
 export default function VerticalLinearStepper() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const dispatch = useDispatch();
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedSymptoms, setSelectedSymptoms] = useState({});
+  const [suggestedDiseases, setSuggestedDiseases] = useState([]);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -58,10 +55,121 @@ export default function VerticalLinearStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const resetState = () => {
+      setActiveStep(0);
+      setSelectedPatient(null);
+      setSelectedSymptoms({});
+      setSuggestedDiseases([]);
+  }
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <PatientSelect selectedPatient={selectedPatient} setSelectedPatient={setSelectedPatient} />;
+      case 1:
+        return <SymptomSelect selectedSymptoms={selectedSymptoms} setSelectedSymptoms={setSelectedSymptoms} />;
+      case 2:
+        return <DiseasePredictions suggestedDiseases={suggestedDiseases} setSuggestedDiseases={setSuggestedDiseases} />;
+      case 3:
+        return <Box>
+            <Typography variant="body1">
+              <p>
+              Your diagnosis is complete !!
+              </p>
+              <p>
+              Next Steps: 
+              </p>
+            </Typography>
+          
+          <Box display="flex" flexDirection="column" width={300} height={200} justifyContent="space-around">
+            <Button
+              variant="contained"
+              color="primary"
+            >
+              View Diagnosis List
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={resetState}
+            >
+              Start new diagnosis
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+            >
+              Get Drug Recommendations
+            </Button>
+          </Box>
+        </Box>;
+      default:
+        return 'Unknown step';
+    }
+  }
+  const getStepActions = (step) => {
+    switch (step) {
+      case 0:
+        return <div>
+          <Button
+            disabled
+            className={classes.button}
 
+          >
+            Back
+                </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            disabled={!selectedPatient}
+            className={classes.button}
+          >
+            Next
+                </Button>
+        </div>;
+      case 1:
+        return <div>
+          <Button
+            className={classes.button}
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={async () => {
+              const resp = await getDiseasePredictions(dispatch);
+              setSuggestedDiseases(resp);
+              handleNext();
+            }}
+            disabled={Object.keys(selectedSymptoms).length === 0}
+            className={classes.button}
+          >
+            Get Predictions
+        </Button>
+        </div>;
+      case 2:
+        return <div>
+          <Button
+            className={classes.button}
+            onClick={handleBack}
+          >
+            Back
+        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={handleNext}
+          >
+            Finish
+      </Button>
+        </div>;
+      default:
+        return null;
+    }
+  }
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -69,38 +177,22 @@ export default function VerticalLinearStepper() {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
+              {getStepContent(index)}
               <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
+                {getStepActions(index)}
               </div>
             </StepContent>
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
+      {/* {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - you&apos;re finished</Typography>
           <Button onClick={handleReset} className={classes.button}>
             Reset
           </Button>
         </Paper>
-      )}
+      )} */}
     </div>
   );
 }
