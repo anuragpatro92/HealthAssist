@@ -2,10 +2,9 @@
 
 const PatientModel = require('../../models/patients');
 
-//not done
-const getPatientDetails = (patient_id) => new Promise(async(resolve, reject) => {
+const getPatientDetails = (id) => new Promise(async(resolve, reject) => {
         try {
-            let query = PatientModel.findOne({ id : patient_id });
+            let query = PatientModel.findOne({_id: id});
             const result = await query.exec();
             if(result) {
                 resolve(result);
@@ -13,7 +12,6 @@ const getPatientDetails = (patient_id) => new Promise(async(resolve, reject) => 
                 throw new Error("No Patient Found")
             }
         }catch(e) {
-            console.log(e);
             reject(e);
         }
 })

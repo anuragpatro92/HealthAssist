@@ -33,10 +33,12 @@ server.listen(port, () => console.log(`server listening on`,port));
 
 var indexRouter = require('./routes/index');
 var doctorRouter = require('./routes/doctor');
-// var patientRouter = require('./routes/patient');
+var patientRouter = require('./routes/patient');
+var diagnosisRouter = require('./routes/diagnosis');
 
 app.use('/api', indexRouter);
 app.use('/api/doctor', doctorRouter);
-// app.use('/api/patient', patientRouter);
+app.use('/api/patient', patientRouter);
+app.use('/api/diagnosis', diagnosisRouter);
 
 module.exports = app;
