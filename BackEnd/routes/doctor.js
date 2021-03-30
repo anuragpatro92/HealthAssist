@@ -13,7 +13,7 @@ router.post('/auth', async(req, res) => {
       msg: 'Auth successful'
     });
   }catch(e) {
-    res.status(401).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message
@@ -48,7 +48,7 @@ router.post('/', async(req, res) => {
       msg: 'Doctor Info Saved successfully'
     });
   }catch(e) {
-    res.status(401).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message
@@ -68,7 +68,7 @@ router.put('/:id', async(req, res) => {
       msg: 'Doctor Info Updated successfully'
     });
   }catch(e) {
-    res.status(401).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message
