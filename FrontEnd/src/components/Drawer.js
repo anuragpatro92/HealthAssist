@@ -126,6 +126,16 @@ export default function SideDrawer(props) {
       }
     </Box>
     } 
+    <List>
+      <ListItem button onClick={() => {
+          history.push("/diagnosis");
+      }}>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Diagnosis" />
+      </ListItem>
+    </List>
     <Divider />
   </Drawer>
   );
