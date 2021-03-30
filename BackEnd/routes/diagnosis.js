@@ -1,6 +1,7 @@
 var express = require('express');
 //const { getPatientDiagnosis } = require('../controllers/diagnosis/getPatientDiagnosis');
 const { addDiagnosis, updateDiagnosis} = require('../controllers/diagnosis/Diagnosis');
+const { getDiagnosisList } = require('../controllers/diagnosis/getDiagnosisList');
 var router = express.Router();
 
 /*router.get('/:patient_id', async(req, res) => {
@@ -19,6 +20,25 @@ var router = express.Router();
     });
   }
 });*/
+
+
+//get diagnosis list 
+router.get('/', async(req, res) => {
+  try {
+    const resp = await getDiagnosisList(req.query.doctor_id);
+    res.status(200).send({
+      status: 'success',
+      content: resp,
+      msg: 'Diagnosis List fetched successfully'
+    });
+  }catch(e) {
+    res.status(200).send({
+      status: 'failure',
+      content: e,
+      msg: e.message
+    });
+  }
+});
 
 //Add Diagnosis Info
 router.post('/', async(req, res) => {
