@@ -3,7 +3,7 @@ import utilReducer from './util-reducer';
 import patientReducer from './patient-reducer';
 import metaReducer from './meta-reducer';
 import authReducer from './auth-reducer';
-
+import diagnosisReducer from './diagnosis-reducer';
 
 import {
   RESET_ALL_STATE
@@ -13,7 +13,8 @@ const appReducer = combineReducers({
     authReducer,
     utilReducer,
     patientReducer,
-    metaReducer
+    metaReducer,
+    diagnosisReducer
 });
 
 const rootReducer = (state, action) => {
