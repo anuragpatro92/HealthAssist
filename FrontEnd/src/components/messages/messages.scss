@@ -1,10 +1,10 @@
 .t-alert-success {
-    background-color: $app-success;
-    color: $app-text;
+    background-color: green;
+    color: white;
  }
  .t-alert-danger {
-    background-color: $app-danger;
-    color: $app-text;
+    background-color: red;
+    color: white;
  }
  .t-alert-hidden { 
     position: fixed;

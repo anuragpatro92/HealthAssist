@@ -4,6 +4,11 @@ import { AppBar, Toolbar,IconButton,Typography} from '@material-ui/core';
 import clsx from 'clsx';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import {signOutUser } from '../redux/actions/auth-actions';
+import {useSelector,useDispatch } from 'react-redux';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -34,12 +39,58 @@ const useStyles = makeStyles((theme) => ({
     title: {
       flexGrow: 1,
     },
+    sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+    },
   }));
   
 export default function TopBar(props) {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const userName = useSelector(state => state.authReducer.user.content.name);
   const [routerPath , setRouterPath] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openProfile = () => {
+    history.push("/doctor-profile");
+    handleMenuClose();
+  }
+
+  const signOut = () => {
+    dispatch(signOutUser(history));
+  }
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={openProfile}>Profile</MenuItem>
+      <MenuItem onClick={signOut}>Sign out</MenuItem>
+    </Menu>
+  );
+
+
   useEffect(() => {
     const unlisten = history.listen((location) => {
         let loc = location.pathname.split('/');
@@ -51,10 +102,9 @@ export default function TopBar(props) {
   }, [])
   var title = "Welcome to Health Assist";
   switch(routerPath) {
-    case "": title = "Welcome to Health Assist"; break;
+    case "": title = `Welcome ${userName} to Health Assist`; break;
     case "disease-prediction": title = "Disease Predictor"; break;
     case "drug-recommendation": title = "Drug Recommendor"; break;
-    case "diagnosis": title = "Your Diagnoses"; break;
     default: title = routerPath; break;
   }
   return (
@@ -72,7 +122,22 @@ export default function TopBar(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {title}
           </Typography>
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+          
         </Toolbar>
+        {renderMenu}
       </AppBar>
+      
   );
 }

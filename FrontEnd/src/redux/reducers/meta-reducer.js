@@ -1,8 +1,7 @@
-import { GET_SYMPTOM_LIST, GET_DISEASE_LIST } from "../actions/action-types";
+import { GET_SYMPTOM_LIST } from "../actions/action-types";
 
 const initialState = {
-    symptomList: null,
-    diseaseList: null
+    symptomList: null
 }
 
 const metaReducer = (state = initialState, action) => {
@@ -12,12 +11,6 @@ const metaReducer = (state = initialState, action) => {
              ...state,
              symptomList : action.payload
           };
-      }
-      case GET_DISEASE_LIST: {
-        return {
-            ...state,
-            diseaseList : action.payload
-         };
       }
     default:
         return state;
