@@ -51,7 +51,7 @@ export default function TopBar(props) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const userName = useSelector(state => state.authReducer.user.content.name);
+  const userName = useSelector(state => state.authReducer.user.name);
   const [routerPath , setRouterPath] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
 

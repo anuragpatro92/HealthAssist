@@ -53,8 +53,8 @@ export const signIn = (userData,history) => {
           const resp = await axios.post(`${API_BASE}/doctor/auth`, userData);
           dispatch(stopLoader());
           if(resp.data.status === "success") {
-              localStorage.setItem("loggedInUserInfo", JSON.stringify(resp.data));
-              dispatch(setCurrentUser(resp.data));
+              localStorage.setItem("loggedInUserInfo", JSON.stringify(resp.data.content));
+              dispatch(setCurrentUser(resp.data.content));
               history.push("/")
           }else{
             dispatch(setMessage({

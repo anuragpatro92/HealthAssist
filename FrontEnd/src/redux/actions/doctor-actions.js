@@ -15,8 +15,8 @@ export const doctorProfile = (user_id,userData,history) => {
           dispatch(stopLoader());
           if(resp.data.status === "success") {
             localStorage.removeItem("loggedInUserInfo");
-            localStorage.setItem("loggedInUserInfo", JSON.stringify(resp.data));
-            dispatch(setCurrentUser(resp.data));
+            localStorage.setItem("loggedInUserInfo", JSON.stringify(resp.data.content));
+            dispatch(setCurrentUser(resp.data.content));
               history.push("/")
               dispatch(setMessage({
                 msg: resp.data.msg,

@@ -69,7 +69,7 @@ export default function DoctorProfile() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.authReducer.user.content);
+  const user = useSelector(state => state.authReducer.user);
   
   const formik = useFormik({
     initialValues: {
