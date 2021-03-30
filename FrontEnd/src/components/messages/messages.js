@@ -19,6 +19,10 @@ class Messages extends React.Component {
                 setTimeout(() => {
                     this.props.dismissAlert();
                 }, 3000)
+            }else if(this.props.status.name === 'danger') {
+                setTimeout(() => {
+                    this.props.dismissAlert();
+                }, 3000)
             }
             return ( 
                 <div className={"alert t-alert-show t-alert-" + this.props.status.name + " alert-dismissible fade show"} role="alert">

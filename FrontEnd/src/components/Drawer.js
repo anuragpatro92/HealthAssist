@@ -67,7 +67,7 @@ export default function SideDrawer(props) {
     {
       name: "Drug Recommendation",
       path: "drug-recommendation"
-    },
+    }
   ]
   useEffect(() => {
     const unlisten = history.listen((location) => {
@@ -126,16 +126,6 @@ export default function SideDrawer(props) {
       }
     </Box>
     } 
-    <List>
-      <ListItem button onClick={() => {
-          history.push("/diagnosis");
-      }}>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText primary="Diagnosis" />
-      </ListItem>
-    </List>
     <Divider />
   </Drawer>
   );
