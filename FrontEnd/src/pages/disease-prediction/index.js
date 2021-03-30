@@ -13,6 +13,7 @@ import DiseasePredictions from './../../components/disease-predictions';
 
 import { getDiseasePredictions } from './../../services/ds-service';
 import { useDispatch } from 'react-redux';
+import { createDiagnosis } from './../../redux/actions/diagnosis-action';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -161,7 +162,18 @@ export default function VerticalLinearStepper() {
             variant="contained"
             color="primary"
             className={classes.button}
-            onClick={handleNext}
+            onClick={() => {
+              const newDiagnosis = {
+                patient_id: selectedPatient._id, 
+                doctor_id: localStorage.getItem('doctor_id'),
+                status: "In Progress",
+                symptoms: Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]),
+                diseases: suggestedDiseases,
+                drugs: []
+              }
+              dispatch(createDiagnosis(newDiagnosis));
+              handleNext();
+            }}
           >
             Finish
       </Button>
@@ -185,14 +197,6 @@ export default function VerticalLinearStepper() {
           </Step>
         ))}
       </Stepper>
-      {/* {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )} */}
     </div>
   );
 }
