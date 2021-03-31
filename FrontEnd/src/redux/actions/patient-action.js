@@ -50,6 +50,7 @@ export const addPatientInfo = (userData,history) => {
                     msg: resp.data.msg,
                     name: 'success'
                    }));
+                   dispatch(getPatientList(userData.doctor_id));
                    history.push('/');
             }else{
               dispatch(setMessage({
@@ -68,7 +69,7 @@ export const addPatientInfo = (userData,history) => {
   }
 
 // Edit Patient
-export const editPatientInfo = (userData,history) => {
+export const editPatientInfo = (doctorId,userData,history) => {
     return async(dispatch) => {
         try {
             dispatch(startLoader());
@@ -80,7 +81,8 @@ export const editPatientInfo = (userData,history) => {
                     msg: resp.data.msg,
                     name: 'success'
                    }));
-                   history.push('/doctor/patients');
+                   dispatch(getPatientList(doctorId));
+                   history.push('/patients');
             }else{
               dispatch(setMessage({
                 msg: resp.data.msg,

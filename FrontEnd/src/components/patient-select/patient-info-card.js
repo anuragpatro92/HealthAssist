@@ -84,7 +84,7 @@ export default function PatientInfoCard(props) {
             </Box>
          </Box>
          {isEditable &&
-         <Link to={{pathname:"/doctor/edit_patient",patient:patient}} >
+         <Link to={{pathname:"/edit_patient",patient:patient}} >
          <Button
           type="submit"
           fullWidth

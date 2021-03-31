@@ -17,9 +17,9 @@ export default function Routes() {
         <Route path="/drug-recommendation/:diagnosisID?" component={DrugRecommendation} />
         <Route path="/diagnosis" exact component={DiagnosisList} />
         <Route path="/doctor-profile" exact component={DoctorProfile} />
-        <Route path="/doctor/add_patient" exact component={PatientAdd} />
-        <Route path="/doctor/edit_patient" exact component={PatientEdit} />
-        <Route path="/doctor/patients" exact component={Patients} />
+        <Route path="/add_patient" exact component={PatientAdd} />
+        <Route path="/edit_patient" exact component={PatientEdit} />
+        <Route path="/patients" exact component={Patients} />
     </Switch>
   );
 }

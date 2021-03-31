@@ -105,7 +105,8 @@ export default function PatientEdit(props) {
       const filteredDiseases = Object.fromEntries(filterValues);
       values.chronic_conditions = Object.keys(filteredDiseases);
       values.id = patient._id; 
-      dispatch(editPatientInfo(values,history));
+      
+      dispatch(editPatientInfo(doctorId,values,history));
     },
   });
 

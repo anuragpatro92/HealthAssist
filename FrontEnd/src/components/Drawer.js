@@ -144,6 +144,25 @@ export default function SideDrawer(props) {
       </ListItem>
     </List>
     <Divider />
+    <List>
+      <h5>&nbsp;&nbsp;&nbsp;Patient</h5>
+      <ListItem button onClick={() => {
+          history.push("/add_patient");
+      }}>
+        <ListItemIcon>
+          <EventNoteIcon color={'add_patient' === routerPath ? "primary" : "default"}/>
+        </ListItemIcon>
+        <ListItemText primary="Add Patient" className={'add_patient' === routerPath && classes.selected}/>
+      </ListItem>
+      <ListItem button onClick={() => {
+          history.push("/patients");
+      }}>
+        <ListItemIcon>
+          <EventNoteIcon color={'patients' === routerPath ? "primary" : "default"}/>
+        </ListItemIcon>
+        <ListItemText primary="View All Patients" className={'patients' === routerPath && classes.selected}/>
+      </ListItem>
+    </List>
   </Drawer>
   );
 }
