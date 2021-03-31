@@ -16,8 +16,8 @@ import Container from '@material-ui/core/Container';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {useSelector, useDispatch } from 'react-redux';
-import { addPatientInfo } from '../../redux/actions/patient-action';
-import DiseaseSelect from './../../components/disease-select';
+import { addPatientInfo,editPatientInfo } from '../../redux/actions/patient-action';
+import DiseaseSelect from '../../components/disease-select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,32 +70,42 @@ const validationSchema = yup.object({
 });
 
 
-export default function PatientAdd() {
+export default function PatientEdit(props) {
   let history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [selectedDiseases, setSelectedDiseases] = useState({});
-  const doctorId = useSelector(state => state.authReducer.user._id);
   
+  const doctorId = useSelector(state => state.authReducer.user._id);
+  const patient = props.history.location.patient;
+
+  let diseases = {};
+    patient.chronic_conditions.forEach((item)=>
+    diseases[item] = true
+    )
+  
+
+  const [selectedDiseases, setSelectedDiseases] = useState(diseases);
+
   const formik = useFormik({
     initialValues: {
-      name:'',
-      email: '',
-      phone:'',
-      age:'',
-      sex:'',
-      height:'',
-      weight:'',
-      chronic_conditions:''
+      name:patient.name,
+      email: patient.email,
+      phone:patient.phone,
+      age:patient.age,
+      sex:patient.sex,
+      height:patient.height,
+      weight:patient.weight,
+      chronic_conditions:patient.chronic_conditions
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+
       const asArray = Object.entries(selectedDiseases);
       const filterValues = asArray.filter(([key, value]) => value !=false);
       const filteredDiseases = Object.fromEntries(filterValues);
       values.chronic_conditions = Object.keys(filteredDiseases);
-      values.doctor_id = doctorId;
-      dispatch(addPatientInfo(values,history));
+      values.id = patient._id; 
+      dispatch(editPatientInfo(values,history));
     },
   });
 
@@ -128,6 +138,7 @@ export default function PatientAdd() {
             <TextField
               variant="outlined"
               required
+              disabled
               fullWidth
               id="email"
               label="Email Address"
@@ -226,7 +237,7 @@ export default function PatientAdd() {
           color="primary"
           className={classes.submit}
         >
-          Add Patient
+          Update Patient
         </Button>
       </form>
     </div>

@@ -1,8 +1,9 @@
 'use strict';
 
 const PatientModel = require('../../models/patients');
+const DoctorModel = require('../../models/doctors');
 
-const addPatientInfo = (name, email, phone, age, sex, height,weight,chronic_conditions) => new Promise(async(resolve, reject) => {
+const addPatientInfo = (doctor_id,name, email, phone, age, sex, height,weight,chronic_conditions) => new Promise(async(resolve, reject) => {
         try {
             let query = PatientModel.findOne({email});
             const result = await query.exec();
@@ -10,7 +11,17 @@ const addPatientInfo = (name, email, phone, age, sex, height,weight,chronic_cond
                 const patient = new PatientModel({name, email, phone,age, sex, height,weight,chronic_conditions});
                 const saveResult = await patient.save();
                   //checking whether able to save patient info or not
-                  if(saveResult) resolve(saveResult);
+                  if(saveResult) {
+                    let docQuery = DoctorModel.findByIdAndUpdate(doctor_id,{ $push: { patients: saveResult._id } },{new:true});
+                    const docResult = await docQuery.exec();
+                      if(docResult){
+                        resolve(saveResult);
+                      }else{
+                        //if required, can delete the patient record-> to maintain the transactionality  
+                        throw new Error("Cannot Insert Patient Id in Doctor Document");   
+                      }
+                      
+                    }
                   else throw new Error("Patient Info Saving Failed");
 
             } else {

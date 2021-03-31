@@ -19,8 +19,13 @@ export const getPatientList = (doctor_id) => {
                         });
             
             dispatch(stopLoader());
-            if(resp.status === 200 && resp.data.status === "success") {
+            if(resp.data.status === "success") {
                 dispatch(getPatientListDispatcher(resp.data.content.patients));
+            }else{
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'danger'
+                }));
             } 
         }catch(e) {
             dispatch(stopLoader());
@@ -32,5 +37,63 @@ export const getPatientList = (doctor_id) => {
     };
 }
 
+// Add Patient
+export const addPatientInfo = (userData,history) => {
+    return async(dispatch) => {
+        try {
+            dispatch(startLoader());
+            const resp = await axios.post(`${API_BASE}/patient/`,userData);
+            
+            dispatch(stopLoader());
+            if(resp.data.status === "success") {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                   }));
+                   history.push('/');
+            }else{
+              dispatch(setMessage({
+                msg: resp.data.msg,
+                name: 'danger'
+            }));
+            }  
+        }catch(e) {
+            dispatch(stopLoader());
+            dispatch(setMessage({
+                msg: e.message,
+                name: 'danger'
+            }))
+        }
+    };
+  }
 
-
+// Edit Patient
+export const editPatientInfo = (userData,history) => {
+    return async(dispatch) => {
+        try {
+            dispatch(startLoader());
+            const resp = await axios.put(`${API_BASE}/patient/${userData.id}`, userData);
+            
+            dispatch(stopLoader());
+            if(resp.data.status === "success") {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                   }));
+                   history.push('/doctor/patients');
+            }else{
+              dispatch(setMessage({
+                msg: resp.data.msg,
+                name: 'danger'
+            }));
+            }  
+        }catch(e) {
+            dispatch(stopLoader());
+            dispatch(setMessage({
+                msg: e.message,
+                name: 'danger'
+            }))
+        }
+    };
+  }
+  

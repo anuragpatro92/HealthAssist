@@ -30,7 +30,7 @@ router.get('/patientList', async(req, res) => {
       msg: 'Patient list fetched successfully'
     });
   }catch(e) {
-    res.status(404).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message
