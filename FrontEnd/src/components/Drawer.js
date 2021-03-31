@@ -18,6 +18,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import axios from 'axios';
 import {useHistory, useParams} from "react-router-dom";
+import EventNoteIcon from '@material-ui/icons/EventNote';
 
 const drawerWidth = 240;
 
@@ -97,9 +98,9 @@ export default function SideDrawer(props) {
           history.push("/");
       }}>
         <ListItemIcon>
-          <HomeIcon />
+          <HomeIcon color={'' === routerPath ? "primary": "default"}/>
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Home" className={'' === routerPath && classes.selected}/>
       </ListItem>
     </List>
     <List>
@@ -131,9 +132,9 @@ export default function SideDrawer(props) {
           history.push("/diagnosis");
       }}>
         <ListItemIcon>
-          <HomeIcon />
+          <EventNoteIcon color={'diagnosis' === routerPath ? "primary" : "default"}/>
         </ListItemIcon>
-        <ListItemText primary="Diagnosis" />
+        <ListItemText primary="Diagnosis" className={'diagnosis' === routerPath && classes.selected}/>
       </ListItem>
     </List>
     <Divider />

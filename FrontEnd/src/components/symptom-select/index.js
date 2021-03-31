@@ -9,6 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSymptomList } from '../../redux/actions/meta-action';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Box, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
+import { getSymptomLabel } from './../../utils/helper';
+
+
 
 const useStyles = makeStyles((theme) => ({
   autocomplete: {
@@ -17,9 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   
 }));
-const getSymptomLabel = (option) => {
-  return option.split('_').map(x => x[0].toUpperCase() + x.substring(1)).join(' ')
-}
+
 export default function SymptomSelect(props) {
   const dispatch = useDispatch();
   const {selectedSymptoms, setSelectedSymptoms} = props;
