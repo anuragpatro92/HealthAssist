@@ -105,7 +105,10 @@ export default function TopBar(props) {
     case "": title = `Welcome ${userName} to Health Assist`; break;
     case "disease-prediction": title = "Disease Predictor"; break;
     case "drug-recommendation": title = "Drug Recommendor"; break;
-    case "diagnosis": title = "Your Diagnoses"; break;
+    case "diagnosis": title = "Diagnoses Records"; break;
+    case "patients": title = "Patient Directory"; break;
+    case "add_patient": title = "Register New Patient"; break;
+    case "edit_patient": title = "Edit Patient Information"; break;
     default: title = routerPath; break;
   }
   return (
