@@ -1,23 +1,15 @@
 import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade,withStyles,makeStyles } from '@material-ui/core/styles';
 import React, { useEffect , useState} from 'react';
 import { useHistory } from "react-router-dom";
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Container from '@material-ui/core/Container';
-import { useFormik } from 'formik';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import * as yup from 'yup';
-import {useDispatch } from 'react-redux';
-import { doctorSignUp } from '../../redux/actions/auth-actions';
-
+import {useSelector,useDispatch } from 'react-redux';
+import { getPatientList } from '../../redux/actions/patient-action';
+import PatientInfoCard from './../../components/patient-select/patient-info-card';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,64 +18,72 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  table: {
+    minWidth: 700,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(0)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '105ch',
+    },
+  }
+  
 }));
-
-const validationSchema = yup.object({
-  name: yup
-    .string('Enter your Name')
-    .required('Name is required'),
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: yup
-    .string('Enter your password')
-    .min(4, 'Password should be of minimum 4 characters length')
-    .required('Password is required'),
-  phone: yup
-    .string('Enter your Phone Number')
-    .required('Phone Number is required'),
-  cert_id: yup
-    .string('Enter your License Number')
-    .required('License Number is required'),
-  address: yup
-    .string('Enter your Address')
-    .required('Address is required'),      
-});
-
 
 export default function Patients() {
   let history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const doctorId = useSelector(state => state.authReducer.user._id);
+  const patientList = useSelector(state => state.patientReducer.patientList);
+  const [filteredResult, setFilteredResult] = useState(patientList);
+  const [searchName, setSearchName] = useState('');
   
-  const formik = useFormik({
-    initialValues: {
-      name:'',
-      email: '',
-      password: '',
-      phone:'',
-      cert_id:'',
-      address:''
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      //alert(JSON.stringify(values, null, 2));
-      
-      dispatch(doctorSignUp(values,history));
-    },
-  });
+  const filter = (key) => {
+      let result = patientList.filter(p => {
+        let doc = "";  
+        Object.keys(p).forEach(k => doc += JSON.stringify(p[k] + " ").toLowerCase());
+        return doc.includes(key.toLowerCase());
+      })
+      setFilteredResult(result);
+    }
+
+  const handleChange = (event) => {
+      setSearchName(event.target.value);
+      filter(event.target.value);
+  }
 
 
   /*const [formValues, setFormValues] = useState({
@@ -101,155 +101,52 @@ export default function Patients() {
       setFormValues(deepcopy);
   }*/
   useEffect(() => {
-
+  
+    if(!patientList){
+      dispatch(getPatientList(doctorId));
+    }
+    
   }, [])
-  return (
-    <Container component="main" maxWidth="xs">
-    <CssBaseline />
-    <div className={classes.paper}>
-      <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Sign up
-      </Typography>
-      <form className={classes.form} onSubmit={formik.handleSubmit} noValidate>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              autoComplete="name"
-              name="name"
-              variant="outlined"
-              required
-              fullWidth
-              id="name"
-              label="Name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              autoFocus
+
+  useEffect(() => {
+    if(patientList){
+      setFilteredResult(patientList);
+    }
+    
+  }, [patientList])
+
+  /*filter = (searchKey) => {
+    setFilteredList(list.filter(o => {
+        let str = "";
+        Object.keys(o).forEach(k => str += o[k] + " ");
+        return str.includes(searchKey);
+    }))
+  }*/
+    return (
+    <>
+    <Box display="flex" flexWrap="wrap">
+    <div className={classes.search}>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+              value={searchName}
+              onChange={handleChange}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              autoComplete="email"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="phone"
-              label="Phone"
-              type="phone"
-              id="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="cert_id"
-              label="License Number"
-              type="text"
-              id="cert_id"
-              value={formik.values.cert_id}
-              onChange={formik.handleChange}
-              error={formik.touched.cert_id && Boolean(formik.errors.cert_id)}
-              helperText={formik.touched.cert_id && formik.errors.cert_id}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="address"
-              label="Address"
-              type="address"
-              id="address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              error={formik.touched.address && Boolean(formik.errors.address)}
-              helperText={formik.touched.address && formik.errors.address}
-            />
-          </Grid>
-          
-          {/* <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive inspiration, marketing promotions and updates via email."
-            />
-          </Grid> */}
-        </Grid>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Sign Up
-        </Button>
-        <Grid container justify="flex-end">
-          <Grid item>
-            <Link href="/signIn" exact variant="body2">
-              Already have an account? Sign in
-            </Link>
-          </Grid>
-        </Grid>
-      </form>
-    </div>
-    <Box mt={5}>
-      <Copyright />
+            <IconButton type="submit" className={classes.iconButton} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+          </div>
     </Box>
-  </Container>
-  );
-}
-
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+  
+    <Box display="flex" flexWrap="wrap">
+      {filteredResult && 
+      filteredResult.map((patient)=> <PatientInfoCard patient={patient} isEditable="true"/>)
+       }
+      </Box>
+    </>  
+    );
+  }

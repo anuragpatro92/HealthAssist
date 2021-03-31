@@ -1,6 +1,8 @@
 import { Avatar, Box, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,13 +26,16 @@ const useStyles = makeStyles((theme) => ({
     flex: 3,
     paddingLeft: 24,
     fontSize: 18
-}
+},
+submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 
 }));
 
 export default function PatientInfoCard(props) {
   const classes = useStyles();
-  const { patient } = props;
+  const { patient, isEditable } = props;
   return (
     <Paper className={classes.paper}  elevation={3}>
          <Box display="flex">
@@ -78,7 +83,19 @@ export default function PatientInfoCard(props) {
                 </Box>
             </Box>
          </Box>
-         
+         {isEditable &&
+         <Link to={{pathname:"/doctor/edit_patient",patient:patient}} >
+         <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="secondary"
+          className={classes.submit}
+        >
+             Edit Info
+        </Button>
+        </Link>
+       } 
       </Paper>
   );
 }
