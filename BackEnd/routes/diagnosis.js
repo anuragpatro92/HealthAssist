@@ -50,7 +50,7 @@ router.post('/', async(req, res) => {
       msg: 'Diagnosis Saved successfully'
     });
   }catch(e) {
-    res.status(401).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message
@@ -70,7 +70,7 @@ router.put('/:id', async(req, res) => {
       msg: 'Diagnosis Updated successfully'
     });
   }catch(e) {
-    res.status(401).send({
+    res.status(200).send({
       status: 'failure',
       content: e,
       msg: e.message

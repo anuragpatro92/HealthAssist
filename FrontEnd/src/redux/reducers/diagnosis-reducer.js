@@ -1,7 +1,8 @@
-import { GET_DIAGNOSIS_LIST } from "../actions/action-types";
+import { GET_DIAGNOSIS_LIST, SET_MOST_RECENT_DIAGNOSIS } from "../actions/action-types";
 
 const initialState = {
     diagnosisList: null,
+    mostRecent: null
 }
 
 const diagnosisReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const diagnosisReducer = (state = initialState, action) => {
         return {
             ...state,
             diagnosisList : action.payload
+         };
+      }
+      case SET_MOST_RECENT_DIAGNOSIS: {
+        return {
+            ...state,
+            mostRecent : action.payload
          };
       }
     default:

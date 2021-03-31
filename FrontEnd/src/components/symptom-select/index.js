@@ -52,7 +52,6 @@ export default function SymptomSelect(props) {
   return (
     <Box width={600}>
         <Autocomplete
-          variant
           options={symptomList}
           className={classes.autocomplete}
           getOptionLabel={(option) => getSymptomLabel(option)}

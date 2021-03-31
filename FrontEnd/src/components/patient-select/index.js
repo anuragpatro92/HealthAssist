@@ -13,7 +13,7 @@ import PatientInfoCard from './patient-info-card';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 250,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PatientSelect(props) {
   const dispatch = useDispatch();
   const patientList = useSelector(state => state.patientReducer.patientList);
+  const user = useSelector(state => state.authReducer.user);
   const classes = useStyles();
   const {selectedPatient , setSelectedPatient} = props;
   const [patient, setPatient] = useState(selectedPatient);
@@ -39,7 +40,7 @@ export default function PatientSelect(props) {
   
   useEffect(() => {
       if(!patientList)
-        dispatch(getPatientList());
+        dispatch(getPatientList(user._id));
   }, [])
 
   return (
