@@ -1,13 +1,27 @@
 import axios from 'axios';
-import { API_BASE } from '../config/app-config';
+import { DS_API_BASE } from '../config/app-config';
 import {startLoader, stopLoader } from '../redux/actions/util-action';
 import diseases from '../mockData/diseases.json';
+import mockDrugs from '../mockData/drugRec.json';
 
-export const getDiseasePredictions = (dispatch) => {
-    return new Promise((resolve, reject) => {
+export const getDiseasePredictions = (symptoms, dispatch) => {
+    return new Promise(async(resolve, reject) => {
         try {
             dispatch(startLoader());
-            //get disease pred from DS API
+            const resp = await axios.get(`${DS_API_BASE}/diseasePrediction`, {symptoms});
+            dispatch(stopLoader());
+            if(resp.status === 200) {
+                resolve(resp.data.diseases.map(d =>  {
+                    return {
+                        disease_id: d,
+                        disease_name: d,
+                        status : "Suggested",
+                        confidence: Math.random() * 100
+                    }
+                }))
+            }
+        }catch(e) {
+            dispatch(stopLoader());
             let resp = diseases.diseases;
             let suggestions = [];
             for(let i = 0 ; i < 3; i++) {
@@ -19,11 +33,25 @@ export const getDiseasePredictions = (dispatch) => {
                     confidence: Math.random() * 100
                 }) 
             }
+            resolve(suggestions)
+        }
+    })
+}
+
+
+
+export const getDrugRecommendations = (symptoms, disease, dispatch) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            dispatch(startLoader());
+            const resp = await axios.get(`${DS_API_BASE}/drugReccomendation123`, {symptoms, disease});
             dispatch(stopLoader());
-            resolve(suggestions);
+            if(resp.status === 200) {
+                resolve(resp.data.drug);
+            }
         }catch(e) {
             dispatch(stopLoader());
-            resolve([])
+            resolve(mockDrugs);
         }
     })
 }

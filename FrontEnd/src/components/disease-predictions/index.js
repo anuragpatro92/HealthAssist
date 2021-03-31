@@ -59,6 +59,8 @@ export default function DiseasePredictions(props) {
       deepcopy.forEach(d => {
          if(d.disease_id === disease.disease_id) {
              d.status = status;
+         }else if(status === 'Accepted') {
+            d.status = 'Rejected';
          }
       })
       setSuggestedDiseases(deepcopy);

@@ -28,10 +28,7 @@ var diagnosesSchema = new Schema({
       type: Number
     }
   }],
-  drugs:[{
-    drug_id: { type: String, required: true},
-    drug_name: { type: String, required: true},
-  }]
+  drugs:[]
   },
   {
     timestamps: {

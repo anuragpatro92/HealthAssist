@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SideDrawer(props) {
   const classes = useStyles();
   var history = useHistory();
-  const [routerPath , setRouterPath] = useState('');
+  const [routerPath , setRouterPath] = useState(history.location.pathname.split('/')[1]);
   const [showServices , setShowServices] = useState(false);
   const services = [
     {
@@ -74,7 +74,13 @@ export default function SideDrawer(props) {
     const unlisten = history.listen((location) => {
         let loc = location.pathname.split('/');
         setRouterPath(loc[1]);
+        if(services.find(s => s.path === loc[1])) {
+          setShowServices(true);
+        }
     })
+    if(services.find(s => s.path === history.location.pathname.split('/')[1])) {
+      setShowServices(true);
+    }
     return () => {
         unlisten();
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -12,9 +12,10 @@ import SymptomSelect from './../../components/symptom-select';
 import DiseasePredictions from './../../components/disease-predictions';
 
 import { getDiseasePredictions } from './../../services/ds-service';
-import { useDispatch } from 'react-redux';
-import { createDiagnosis } from './../../redux/actions/diagnosis-action';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { createDiagnosis , getDiagnosisList,  updateDiagnosis} from './../../redux/actions/diagnosis-action';
+import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,13 +42,35 @@ function getSteps() {
 
 export default function VerticalLinearStepper() {
   const classes = useStyles();
+  const params = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedSymptoms, setSelectedSymptoms] = useState({});
   const [suggestedDiseases, setSuggestedDiseases] = useState([]);
+  const [diagnosis, setDiagnosis] = useState(null);
+  const user =  useSelector(state => state.authReducer.user);
+  const diagnosisList =  useSelector(state => state.diagnosisReducer.diagnosisList);
+  const mostRecentDiagnosis =  useSelector(state => state.diagnosisReducer.mostRecent);
   const steps = getSteps();
-
+  useEffect(() => {
+    if(params.diagnosisID) {
+       if(diagnosisList) {
+          const diagnosis = diagnosisList.find(d => d._id === params.diagnosisID);
+          setDiagnosis(diagnosis);
+          setSelectedPatient(diagnosis.patient_id);
+          let symptomObj = {};
+          diagnosis.symptoms.forEach(s => symptomObj[s]=true);
+          setSelectedSymptoms(symptomObj);
+          setSuggestedDiseases(diagnosis.diseases);
+          setActiveStep(2);
+       } else {
+          dispatch(getDiagnosisList(user._id));
+       }
+    }
+  }, [])
+  
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -85,6 +108,9 @@ export default function VerticalLinearStepper() {
             <Button
               variant="contained"
               color="primary"
+              onClick={() => {
+                history.push('/diagnosis')
+              }}
             >
               View Diagnosis List
             </Button>
@@ -98,6 +124,9 @@ export default function VerticalLinearStepper() {
             <Button
               variant="outlined"
               color="secondary"
+              onClick={() => {
+                history.push(`/drug-recommendation/${diagnosis ? diagnosis._id : mostRecentDiagnosis}`)
+              }}
             >
               Get Drug Recommendations
             </Button>
@@ -140,7 +169,8 @@ export default function VerticalLinearStepper() {
             variant="contained"
             color="primary"
             onClick={async () => {
-              const resp = await getDiseasePredictions(dispatch);
+              let symptomList = Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]);
+              const resp = await getDiseasePredictions(  symptomList , dispatch);
               setSuggestedDiseases(resp);
               handleNext();
             }}
@@ -163,15 +193,28 @@ export default function VerticalLinearStepper() {
             color="primary"
             className={classes.button}
             onClick={() => {
-              const newDiagnosis = {
-                patient_id: selectedPatient._id, 
-                doctor_id: localStorage.getItem('doctor_id'),
-                status: "In Progress",
-                symptoms: Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]),
-                diseases: suggestedDiseases,
-                drugs: []
+              if(diagnosis) {
+                const updateDiagnosisData = {
+                  patient_id: selectedPatient._id, 
+                  doctor_id: user._id,
+                  status: "Diagnosis Completed",
+                  symptoms: Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]),
+                  diseases: suggestedDiseases,
+                  drugs: diagnosis.drugs
+                }
+                dispatch(updateDiagnosis(diagnosis._id, updateDiagnosisData));
+              }else {
+                const newDiagnosis = {
+                  patient_id: selectedPatient._id, 
+                  doctor_id: user._id,
+                  status: "In Progress",
+                  symptoms: Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]),
+                  diseases: suggestedDiseases,
+                  drugs: []
+                }
+                dispatch(createDiagnosis(newDiagnosis));
               }
-              dispatch(createDiagnosis(newDiagnosis));
+             
               handleNext();
             }}
           >
