@@ -12,6 +12,10 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { teal , lightBlue} from '@material-ui/core/colors';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { green, red, orange } from '@material-ui/core/colors';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
@@ -35,6 +39,15 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(0.5, 0),
   },
+  strong : {
+    color: green[600]
+  },
+  moderate : {
+    color: orange[800]
+  },
+  weak : {
+    color: red[600]
+  },
 }));
 
 function not(a, b) {
@@ -53,12 +66,17 @@ export default function DrugSelector(props) {
   const classes = useStyles();
   const {suggestedDrugs, setPrescribedDrugs } = props;
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState(suggestedDrugs);
+  const [left, setLeft] = React.useState(suggestedDrugs.drugList);
   const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
  
+  const getDrugStatus = (drug) => {
+     if(suggestedDrugs.goodDrugs.has(drug)) return <ThumbUpIcon className={classes.strong} title="Recommended"/>;
+     if(suggestedDrugs.badDrugs.has(drug)) return <ThumbDownIcon className={classes.weak} title="Not recommended"/>;
+     return 'Unknown';
+  }
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -136,6 +154,7 @@ export default function DrugSelector(props) {
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={value} />
+              {title === 'Drug List' &&  getDrugStatus(value)}
             </ListItem>
           );
         })}

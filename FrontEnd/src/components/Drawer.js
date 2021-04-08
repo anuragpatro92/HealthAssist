@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import logo from '../logo.png';
 import { 
     IconButton,
     Drawer,
@@ -8,7 +9,8 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Box
+    Box,
+    Typography
 } from '@material-ui/core';
 import clsx from 'clsx';
 import HomeIcon from '@material-ui/icons/Home';
@@ -19,6 +21,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import axios from 'axios';
 import {useHistory, useParams} from "react-router-dom";
 import EventNoteIcon from '@material-ui/icons/EventNote';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import FolderSharedIcon from '@material-ui/icons/FolderShared';
 
 const drawerWidth = 240;
 
@@ -26,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     toolbarIcon: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       padding: '0 8px',
+      color: "#f6a81d",
       ...theme.mixins.toolbar,
     },
     drawerPaper: {
@@ -94,9 +99,13 @@ export default function SideDrawer(props) {
         open={props.open}
   >
     <div className={classes.toolbarIcon}>
-      <IconButton onClick={props.handleDrawerClose}>
+      {/* <IconButton onClick={props.handleDrawerClose}>
         <ChevronLeftIcon />
-      </IconButton>
+      </IconButton> */}
+      <img src={logo} width={30}/> &nbsp;&nbsp;&nbsp;&nbsp;
+      <Typography variant="h6">
+          <b>HEALTH ASSIST</b>
+      </Typography>
     </div>
     <Divider />
     <List>
@@ -150,17 +159,17 @@ export default function SideDrawer(props) {
           history.push("/add_patient");
       }}>
         <ListItemIcon>
-          <EventNoteIcon color={'add_patient' === routerPath ? "primary" : "default"}/>
+          <PersonAddIcon color={'add_patient' === routerPath ? "primary" : "default"}/>
         </ListItemIcon>
-        <ListItemText primary="Add Patient" className={'add_patient' === routerPath && classes.selected}/>
+        <ListItemText primary="Register Patient" className={'add_patient' === routerPath && classes.selected}/>
       </ListItem>
       <ListItem button onClick={() => {
           history.push("/patients");
       }}>
         <ListItemIcon>
-          <EventNoteIcon color={'patients' === routerPath ? "primary" : "default"}/>
+          <FolderSharedIcon color={'patients' === routerPath ? "primary" : "default"}/>
         </ListItemIcon>
-        <ListItemText primary="View All Patients" className={'patients' === routerPath && classes.selected}/>
+        <ListItemText primary="Patient Directory" className={'patients' === routerPath && classes.selected}/>
       </ListItem>
     </List>
   </Drawer>

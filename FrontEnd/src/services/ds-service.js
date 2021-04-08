@@ -8,7 +8,7 @@ export const getDiseasePredictions = (symptoms, dispatch) => {
     return new Promise(async(resolve, reject) => {
         try {
             dispatch(startLoader());
-            const resp = await axios.get(`${DS_API_BASE}/diseasePrediction`, {symptoms});
+            const resp = await axios.post(`${DS_API_BASE}/diseasePrediction`, {symptoms});
             dispatch(stopLoader());
             if(resp.status === 200) {
                 resolve(resp.data.diseases.map(d =>  {
@@ -44,10 +44,13 @@ export const getDrugRecommendations = (symptoms, disease, dispatch) => {
     return new Promise(async(resolve, reject) => {
         try {
             dispatch(startLoader());
-            const resp = await axios.get(`${DS_API_BASE}/drugReccomendation123`, {symptoms, disease});
+            const resp = await axios.post(`${DS_API_BASE}/drugReccomendation`, {symptoms, disease: disease.disease_name});
             dispatch(stopLoader());
             if(resp.status === 200) {
-                resolve(resp.data.drug);
+                let drugList = [...resp.data.good_drugs, ...resp.data.bad_drugs];
+                let goodDrugs = new Set(resp.data.good_drugs);
+                let badDrugs = new Set(resp.data.bad_drugs);
+                resolve({drugList, goodDrugs, badDrugs});
             }
         }catch(e) {
             dispatch(stopLoader());
