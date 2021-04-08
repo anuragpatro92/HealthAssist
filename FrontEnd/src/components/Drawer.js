@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import logo from '../logo.png';
 import { 
     IconButton,
     Drawer,
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
       justifyContent: 'flex-start',
       padding: '0 8px',
+      color: "#f6a81d",
       ...theme.mixins.toolbar,
     },
     drawerPaper: {
@@ -100,8 +102,9 @@ export default function SideDrawer(props) {
       {/* <IconButton onClick={props.handleDrawerClose}>
         <ChevronLeftIcon />
       </IconButton> */}
-      <Typography variant="h5">
-          Health Assist
+      <img src={logo} width={30}/> &nbsp;&nbsp;&nbsp;&nbsp;
+      <Typography variant="h6">
+          <b>HEALTH ASSIST</b>
       </Typography>
     </div>
     <Divider />

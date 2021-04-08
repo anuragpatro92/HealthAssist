@@ -73,8 +73,8 @@ export default function DrugSelector(props) {
   const rightChecked = intersection(checked, right);
  
   const getDrugStatus = (drug) => {
-     if(suggestedDrugs.goodDrugs.has(drug)) return <ThumbUpIcon className={classes.strong}/>;
-     if(suggestedDrugs.badDrugs.has(drug)) return <ThumbDownIcon className={classes.weak}/>;
+     if(suggestedDrugs.goodDrugs.has(drug)) return <ThumbUpIcon className={classes.strong} title="Recommended"/>;
+     if(suggestedDrugs.badDrugs.has(drug)) return <ThumbDownIcon className={classes.weak} title="Not recommended"/>;
      return 'Unknown';
   }
   const handleToggle = (value) => () => {
