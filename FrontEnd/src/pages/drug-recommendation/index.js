@@ -80,7 +80,9 @@ export default function VerticalLinearStepper() {
           const diagnosis = diagnosisList.find(d => d._id === params.diagnosisID);
           setDiagnosis(diagnosis);
           setSelectedPatient(diagnosis.patient_id);
-          setSelectedSymptoms(diagnosis.symptoms);
+          let symptomObj = {};
+          diagnosis.symptoms.forEach(s => symptomObj[s]=true);
+          setSelectedSymptoms(symptomObj);
           setSuggestedDiseases(diagnosis.diseases);
           if(diagnosis.status === 'Completed')
             setActiveStep(4);
