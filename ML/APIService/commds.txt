@@ -1,0 +1,6 @@
+docker push anuragpatro/dockerhub:apiserviceml
+docker build -t anuragpatro/dockerhub:apiserviceml .
+
+
+ sudo docker pull anuragpatro/dockerhub:apiserviceml
+

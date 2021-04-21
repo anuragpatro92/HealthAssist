@@ -1,0 +1,265 @@
+{
+    "Fungal infection": [
+        "Fungal infection"
+    ],
+    "Allergy": [
+        "Progressive familial intrahepatic cholestasis",
+        "Eye allergy",
+        "Mycotic allergy",
+        "Dust allergy",
+        "Seasonal allergy"
+    ],
+    "GERD": [
+        "Gastrooesophageal reflux disease",
+        "Cholestasis",
+        "Gastrooesophageal reflux prophylaxis"
+    ],
+    "Chronic cholestasis": [
+        "Cholestasis of pregnancy",
+        "Cholestasis",
+        "Progressive familial intrahepatic cholestasis"
+    ],
+    "Drug Reaction": [
+        "Drug interaction",
+        "Adverse drug reaction"
+    ],
+    "Peptic ulcer diseae": [
+        "Peptic ulcer"
+    ],
+    "AIDS": [],
+    "Diabetes": [
+        "Gestational diabetes",
+        "Diabetes mellitus management",
+        "Type 1 diabetes mellitus",
+        "Diabetes insipidus",
+        "Diabetes mellitus",
+        "Steroid diabetes",
+        "Acquired lipoatrophic diabetes",
+        "Type 3 diabetes mellitus",
+        "Type 2 diabetes mellitus",
+        "Pancreatogenous diabetes",
+        "Neonatal diabetes mellitus",
+        "Insulin-requiring type 2 diabetes mellitus",
+        "Ketosis-prone diabetes mellitus",
+        "Diabetes mellitus inadequate control",
+        "Diabetes prophylaxis",
+        "Latent autoimmune diabetes in adults",
+        "Insulin resistant diabetes"
+    ],
+    "Gastroenteritis": [
+        "Gastroenteritis norovirus",
+        "Gastroenteritis eosinophilic",
+        "Gastroenteritis salmonella",
+        "Gastroenteritis bacterial",
+        "Parasitic gastroenteritis",
+        "Gastroenteritis",
+        "Gastroenteritis viral",
+        "Gastroenteritis clostridial",
+        "Gastroenteritis cryptosporidial",
+        "Gastroenteritis shigella",
+        "Gastroenteritis radiation"
+    ],
+    "Bronchial Asthma": [],
+    "Hypertension": [
+        "Hypertension"
+    ],
+    "Migraine": [
+        "Migraine",
+        "Hemiplegic migraine",
+        "Migraine with aura",
+        "Vestibular migraine",
+        "Abdominal migraine",
+        "Migraine without aura",
+        "Migraine prophylaxis"
+    ],
+    "Cervical spondylosis": [
+        "Spondylitis"
+    ],
+    "Paralysis (brain hemorrhage)": [],
+    "Jaundice": [
+        "Jaundice",
+        "Jaundice cholestatic"
+    ],
+    "Malaria": [
+        "Malaria"
+    ],
+    "Chicken pox": [],
+    "Dengue": [
+        "Dengue fever"
+    ],
+    "Typhoid": [
+        "Typhoid fever"
+    ],
+    "hepatitis A": [
+        "Hepatitis A virus test",
+        "Hepatitis"
+    ],
+    "Hepatitis B": [
+        "Hepatitis B virus test positive",
+        "Acute hepatitis B",
+        "Chronic hepatitis B",
+        "Hepatitis B",
+        "Hepatitis B surface antigen",
+        "Hepatitis B virus test",
+        "Hepatitis B reactivation",
+        "Hepatitis",
+        "Hepatitis B surface antigen positive",
+        "Hepatitis B immunisation",
+        "Hepatitis B core antibody positive",
+        "Hepatitis B surface antibody positive"
+    ],
+    "Hepatitis C": [
+        "Acute hepatitis C",
+        "Hepatitis C RNA positive",
+        "Chronic hepatitis C",
+        "Hepatitis C antibody positive",
+        "Hepatitis C",
+        "Hepatitis C virus test positive",
+        "Hepatitis"
+    ],
+    "Hepatitis D": [
+        "Hepatitis"
+    ],
+    "Hepatitis E": [
+        "Hepatitis E",
+        "Hepatitis"
+    ],
+    "Alcoholic hepatitis": [
+        "Hepatitis alcoholic"
+    ],
+    "Tuberculosis": [
+        "Latent tuberculosis",
+        "Lymph node tuberculosis",
+        "Mycobacterium tuberculosis complex test positive",
+        "Tuberculosis",
+        "Tuberculosis of central nervous system",
+        "Tuberculosis liver",
+        "Cutaneous tuberculosis",
+        "Extrapulmonary tuberculosis",
+        "Tuberculosis gastrointestinal",
+        "Tuberculosis of eye",
+        "Peritoneal tuberculosis",
+        "Disseminated tuberculosis",
+        "Pulmonary tuberculosis",
+        "Intestinal tuberculosis",
+        "Bone tuberculosis"
+    ],
+    "Common Cold": [
+        "Feeling cold",
+        "Peripheral coldness"
+    ],
+    "Pneumonia": [
+        "Atypical mycobacterial pneumonia",
+        "Pneumonia aspiration",
+        "Pneumonia necrotising",
+        "Pneumonia bacterial",
+        "Pneumonia legionella",
+        "Idiopathic interstitial pneumonia",
+        "Atypical pneumonia",
+        "Pneumocystis jirovecii pneumonia",
+        "Organising pneumonia",
+        "Pneumonia cytomegaloviral",
+        "Pneumonia fungal",
+        "Pneumonia staphylococcal",
+        "COVID-19 pneumonia",
+        "Pneumonia",
+        "Eosinophilic pneumonia",
+        "Eosinophilic pneumonia chronic",
+        "Pneumonia klebsiella",
+        "Pneumonia viral",
+        "Pneumonia measles",
+        "Pneumonia pseudomonal",
+        "Pneumonia influenzal",
+        "Pneumonia pneumococcal",
+        "Pneumonia cryptococcal",
+        "Pneumonia adenoviral",
+        "Varicella zoster pneumonia",
+        "Pneumonia mycoplasmal",
+        "Parasitic pneumonia"
+    ],
+    "Dimorphic hemmorhoids(piles)": [],
+    "Heart attack": [
+        "Post procedural myocardial infarction",
+        "Myocardial infarction",
+        "Acute myocardial infarction"
+    ],
+    "Varicose veins": [
+        "Varicose vein"
+    ],
+    "Hypothyroidism": [
+        "Secondary hypothyroidism",
+        "Post procedural hypothyroidism",
+        "Primary hypothyroidism",
+        "Immune-mediated hypothyroidism",
+        "Hypothyroidism",
+        "Autoimmune hypothyroidism",
+        "Congenital hypothyroidism"
+    ],
+    "Hyperthyroidism": [
+        "Secondary hyperthyroidism",
+        "Hyperthyroidism"
+    ],
+    "Hypoglycemia": [
+        "Hypoglycaemia",
+        "Postprandial hypoglycaemia",
+        "Congenital hyperinsulinaemic hypoglycaemia"
+    ],
+    "Osteoarthristis": [
+        "Osteoarthritis",
+        "Nodal osteoarthritis",
+        "Spinal osteoarthritis"
+    ],
+    "Arthritis": [
+        "Axial spondyloarthritis",
+        "Arthritis enteropathic",
+        "Arthritis bacterial",
+        "Arthritis infective",
+        "Periarthritis",
+        "Gouty arthritis",
+        "Septic arthritis streptococcal",
+        "Juvenile idiopathic arthritis",
+        "Rheumatoid arthritis",
+        "Polyarthritis",
+        "Septic arthritis staphylococcal",
+        "SLE arthritis",
+        "Autoimmune arthritis",
+        "Arthritis",
+        "Juvenile psoriatic arthritis",
+        "Seronegative arthritis",
+        "Arthritis reactive",
+        "Arthritis gonococcal"
+    ],
+    "(vertigo) Paroymsal  Positional Vertigo": [
+        "Vertigo",
+        "Vertigo positional"
+    ],
+    "Acne": [
+        "Dermatitis acneiform",
+        "Acne conglobata",
+        "Acne pustular",
+        "Acne cystic",
+        "Acne"
+    ],
+    "Urinary tract infection": [
+        "Urinary tract infection enterococcal",
+        "Urinary tract pain",
+        "Lower urinary tract symptoms",
+        "Urinary tract discomfort",
+        "Urinary tract infection bacterial",
+        "Urinary tract infection pseudomonal",
+        "Urinary tract infection",
+        "Prophylaxis urinary tract infection",
+        "Urinary tract disorder"
+    ],
+    "Psoriasis": [
+        "Nail psoriasis",
+        "Parapsoriasis",
+        "Pustular psoriasis",
+        "Erythrodermic psoriasis",
+        "Psoriasis",
+        "Guttate psoriasis"
+    ],
+    "Impetigo": [
+        "Impetigo"
+    ]
+}
