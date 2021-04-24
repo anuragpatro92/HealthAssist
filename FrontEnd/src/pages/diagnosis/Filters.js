@@ -1,6 +1,6 @@
 
 import { React, useState, useEffect } from 'react';
-import { Paper, Typography, Box, FormControl, Select, InputLabel, MenuItem, 
+import { Badge, Typography, Box, FormControl, Select, InputLabel, MenuItem, 
     Button, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -24,13 +24,18 @@ export const Filters = (props) => {
         return ['None' , ...Array.from(new Set(list.map(l => l.patient_id.name)))]
     }
     const resetFilters = () => {
-        setFilters(initFilters);
-        applyFilters(initFilters);
+        setFilters(defaultFilters);
+        applyFilters(defaultFilters);
     }
     const handleChange = (event) => { 
         let deep_copy_filters = {...filters};
         deep_copy_filters[event.target.name] = event.target.value;
         setFilters(deep_copy_filters);
+    }
+    const getFilterCount = () => {
+        let count = 0;
+        Object.keys(filters).forEach(k => count += defaultFilters[k] === filters[k] ? 0 : 1);
+        return count;
     }
     useEffect(() => {
         if(initFilters) {
@@ -45,7 +50,10 @@ export const Filters = (props) => {
           id="panel1a-header"
           onClick={() => setExpanded(!expanded)}
         >
-        <Typography className={classes.heading}>FILTERS</Typography>
+            <Badge badgeContent={getFilterCount().toString()} color="secondary">
+                 <Typography style={{padding: 2}} variant="h6" >FILTERS</Typography> 
+            </Badge>
+       
         </AccordionSummary>
                 <AccordionDetails>
                 <Box width="100%">
