@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SymptomSelect(props) {
   const dispatch = useDispatch();
-  const {selectedSymptoms, setSelectedSymptoms} = props;
+  const {selectedSymptoms, setSelectedSymptoms, label} = props;
   const symptomList = useSelector(state => state.metaReducer.symptomList);
   const [symptoms , setSymptoms] = useState(selectedSymptoms);
   const classes = useStyles();
@@ -56,11 +56,11 @@ export default function SymptomSelect(props) {
           className={classes.autocomplete}
           getOptionLabel={(option) => getSymptomLabel(option)}
           id="symptom-selector"
-          renderInput={(params) => <TextField variant="outlined" {...params} label="Symptoms" margin="normal" />}
+          renderInput={(params) => <TextField variant="outlined" {...params} label={label || "Symptoms"} margin="normal" />}
           onChange={handleChange}
         />
         {symptoms && <Box className={classes.autocomplete}>
-        <FormLabel component="legend">Selected Symptoms: </FormLabel>
+        <FormLabel component="legend">Selected {label || "Symptoms"}: </FormLabel>
         <FormGroup>
           {Object.keys(symptoms).map(s =>  <FormControlLabel
             key={s}

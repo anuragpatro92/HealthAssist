@@ -1,14 +1,14 @@
-import { Avatar, Box, Paper, Typography } from '@material-ui/core';
+import { Avatar, Box, Chip, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { Link } from "react-router-dom";
+import { getSymptomLabel } from './../../utils/helper';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-        margin: "1rem",
         padding: "1rem",
-        width: 500
+        width: '100%'
   },
   avatar: {
       width: 100,
@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
 submit: {
     margin: theme.spacing(3, 0, 2),
   },
-
+  mr2: {
+      marginRight: 12,
+      marginTop: 12
+  }
 }));
 
 export default function PatientInfoCard(props) {
@@ -81,20 +84,45 @@ export default function PatientInfoCard(props) {
                         {patient.height} cms
                     </Typography>
                 </Box>
+                <Box className={classes.infoBox}>
+                    <Typography variant="body2" className={classes.infoField}>
+                        Pre-existing Conditions:     
+                    </Typography>
+                    <Typography variant="body1" className={classes.infoValue}>
+                        {patient.chronic_conditions.map(d => <Chip className={classes.mr2} label={getSymptomLabel(d)} variant="outlined" color="secondary" />)}
+                    </Typography>
+                </Box>
             </Box>
          </Box>
          {isEditable &&
+         <Box display="flex" justifyContent="space-between">
          <Link to={{pathname:"/edit_patient",patient:patient}} >
-         <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="secondary"
-          className={classes.submit}
-        >
-             Edit Info
-        </Button>
+            <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            className={classes.submit}
+            >
+                Edit Info
+            </Button>
         </Link>
+         <Link to={{pathname:"/diagnosis", filters: {
+                patient: patient.name,
+                sortOrder: 'latest',
+                status: 'All'
+        }}} >
+         <Button
+         type="submit"
+         fullWidth
+         variant="contained"
+         color="secondary"
+         className={classes.submit}
+         >
+             View History
+         </Button>
+        </Link>
+        </Box>
        } 
       </Paper>
   );

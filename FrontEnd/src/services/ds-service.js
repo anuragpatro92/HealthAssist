@@ -11,12 +11,13 @@ export const getDiseasePredictions = (symptoms, dispatch) => {
             const resp = await axios.post(`${DS_API_BASE}/diseasePrediction`, {symptoms});
             dispatch(stopLoader());
             if(resp.status === 200) {
-                resolve(resp.data.diseases.map(d =>  {
+                
+                resolve(Object.keys(resp.data.diseases).map(d =>  {
                     return {
                         disease_id: d,
                         disease_name: d,
                         status : "Suggested",
-                        confidence: Math.random() * 100
+                        confidence: resp.data.diseases[d]
                     }
                 }))
             }

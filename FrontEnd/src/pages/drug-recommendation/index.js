@@ -191,9 +191,10 @@ export default function VerticalLinearStepper() {
             color="primary"
             className={classes.button}
             onClick={async () => {
-              let symptomList = Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]);
+              let symptomList = new Set(Object.keys(selectedSymptoms).filter(s => selectedSymptoms[s]));
+              selectedPatient.chronic_conditions.forEach(d => symptomList.add(d))
               let disease = suggestedDiseases.find(d => d.status === "Accepted");
-              const drugs = await getDrugRecommendations(symptomList , disease, dispatch);
+              const drugs = await getDrugRecommendations(Array.from(symptomList) , disease, dispatch);
               setSuggestedDrugs(drugs);
               handleNext();
             }}

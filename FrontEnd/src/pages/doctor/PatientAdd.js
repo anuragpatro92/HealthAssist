@@ -17,7 +17,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {useSelector, useDispatch } from 'react-redux';
 import { addPatientInfo } from '../../redux/actions/patient-action';
-import DiseaseSelect from './../../components/disease-select';
+import SymptomSelect from './../../components/symptom-select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -168,6 +169,7 @@ export default function PatientAdd() {
               onChange={formik.handleChange}
               error={formik.touched.age && Boolean(formik.errors.age)}
               helperText={formik.touched.age && formik.errors.age}
+              type="number"
             />
           </Grid>
           <Grid item xs={3}>
@@ -179,11 +181,18 @@ export default function PatientAdd() {
               label="Gender"
               type="text"
               id="sex"
+              select
               value={formik.values.sex}
               onChange={formik.handleChange}
               error={formik.touched.sex && Boolean(formik.errors.sex)}
               helperText={formik.touched.sex && formik.errors.sex}
             >
+               <MenuItem value={'M'}>
+                  Male
+                </MenuItem>
+                <MenuItem value={'F'}>
+                  Female
+                </MenuItem>
             </TextField>    
             
           </Grid>
@@ -200,6 +209,7 @@ export default function PatientAdd() {
               onChange={formik.handleChange}
               error={formik.touched.height && Boolean(formik.errors.height)}
               helperText={formik.touched.height && formik.errors.height}
+              type="number"
             />
           </Grid>
           <Grid item xs={3}>
@@ -215,9 +225,10 @@ export default function PatientAdd() {
               onChange={formik.handleChange}
               error={formik.touched.weight && Boolean(formik.errors.weight)}
               helperText={formik.touched.weight && formik.errors.weight}
+              type="number"
             />
           </Grid>
-         <DiseaseSelect selectedDiseases={selectedDiseases} setSelectedDiseases={setSelectedDiseases}/>
+          <SymptomSelect selectedSymptoms={selectedDiseases} setSelectedSymptoms={setSelectedDiseases} label={"Pre-existing Conditions"}/>
         </Grid>
         <Button
           type="submit"

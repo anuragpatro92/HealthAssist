@@ -141,11 +141,12 @@ export default function Patients() {
       </IconButton>
           </div>
     </Box>
-  
-    <Box display="flex" flexWrap="wrap">
-      {filteredResult && 
-      filteredResult.map((patient)=> <PatientInfoCard patient={patient} isEditable="true"/>)
-       }
+    <Box display="flex" flexWrap="wrap" margin={2}>
+          {filteredResult && 
+          filteredResult.map((patient)=> <Box width={500} margin={1}> 
+            <PatientInfoCard patient={patient} isEditable="true"/>
+            </Box>)
+          }
       </Box>
     </>  
     );
