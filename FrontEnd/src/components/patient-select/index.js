@@ -59,7 +59,9 @@ export default function PatientSelect(props) {
             )}
         </Select>
       </FormControl>
-      {patient && <PatientInfoCard patient={patient}/>}
+      <Box width={750}>
+          {patient && <PatientInfoCard patient={patient}/>}
+      </Box>
     </div>
   );
 }

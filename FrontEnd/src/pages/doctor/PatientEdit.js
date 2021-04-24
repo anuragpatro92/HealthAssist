@@ -17,7 +17,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {useSelector, useDispatch } from 'react-redux';
 import { addPatientInfo,editPatientInfo } from '../../redux/actions/patient-action';
-import DiseaseSelect from '../../components/disease-select';
+import SymptomSelect from './../../components/symptom-select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,13 +99,11 @@ export default function PatientEdit(props) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-
       const asArray = Object.entries(selectedDiseases);
       const filterValues = asArray.filter(([key, value]) => value !=false);
       const filteredDiseases = Object.fromEntries(filterValues);
       values.chronic_conditions = Object.keys(filteredDiseases);
       values.id = patient._id; 
-      
       dispatch(editPatientInfo(doctorId,values,history));
     },
   });
@@ -229,7 +227,7 @@ export default function PatientEdit(props) {
               helperText={formik.touched.weight && formik.errors.weight}
             />
           </Grid>
-         <DiseaseSelect selectedDiseases={selectedDiseases} setSelectedDiseases={setSelectedDiseases}/>
+         <SymptomSelect selectedSymptoms={selectedDiseases} setSelectedSymptoms={setSelectedDiseases} label={"Pre-existing conditions"}/>
         </Grid>
         <Button
           type="submit"

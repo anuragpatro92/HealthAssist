@@ -1,24 +1,24 @@
-import React , {useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { Tab, Tabs, AppBar, Box } from '@material-ui/core';
+import { AppBar, Tab, Tabs } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { useDispatch , useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDiagnosisList } from '../../redux/actions/diagnosis-action';
-import { Divider } from '@material-ui/core';
-import DiagnosisTimeline from './DiagnosisTimeline';
 import PatientInfoCard from './../../components/patient-select/patient-info-card';
+import DiagnosisTimeline from './DiagnosisTimeline';
+import { Filters } from './Filters';
+import { useHistory } from 'react-router-dom';
+
 
 const useRowStyles = makeStyles({
   root: {
@@ -34,6 +34,7 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const [value, setValue] = React.useState(0);
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -79,20 +80,37 @@ function Row(props) {
   );
 }
 
-
-
 export default function DiagnosisList() {
   const dispatch = useDispatch();
-  const diagList  = useSelector(state => state.diagnosisReducer.diagnosisList);
-  const user  = useSelector(state => state.authReducer.user);
+  const history = useHistory();
 
+  const diagList  = useSelector(state => state.diagnosisReducer.diagnosisList);
+  const [filteredDiagList, setFilteredDiagList] = React.useState(diagList);
+  
+  const user  = useSelector(state => state.authReducer.user);
+  const initFilters = history.location['filters'] || null;
+  
   useEffect(() => {
     if(!diagList)
       dispatch(getDiagnosisList(user._id))
   }, [])  
-  
+  const applyFilters = (filters) => {
+      let deep_copy_diagList = [...diagList];
+      if(filters.patient !== 'None') {
+        deep_copy_diagList =  deep_copy_diagList.filter(d => d.patient_id.name === filters.patient)
+      }
+      if(filters.status !== 'All') {
+        deep_copy_diagList =  deep_copy_diagList.filter(d => d.status === filters.status)
+      }
+      if(filters.sortOrder === 'oldest') {
+        deep_copy_diagList.reverse()
+      }
+      setFilteredDiagList(deep_copy_diagList);  
+  }
   return (<>
-    {diagList &&
+    {filteredDiagList &&
+    <>
+    <Filters list={diagList} applyFilters={applyFilters} initFilters={initFilters}/>
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
@@ -106,12 +124,12 @@ export default function DiagnosisList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {diagList.map((row) => (
+          {filteredDiagList.map((row) => (
             <Row key={row.name} row={row} />
           ))}
         </TableBody>
       </Table>
-    </TableContainer>}
+    </TableContainer></>}
     </>
   );
 }
