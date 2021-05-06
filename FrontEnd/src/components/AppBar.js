@@ -40,10 +40,8 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     },
     sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
+      display: 'flex',
+      alignItems: "center"
     },
   }));
   
@@ -102,7 +100,7 @@ export default function TopBar(props) {
   }, [])
   var title = "Welcome to Health Assist";
   switch(routerPath) {
-    case "": title = `Welcome ${userName} to Health Assist`; break;
+    case "": title = "Dashboard"; break;
     case "disease-prediction": title = "Disease Predictor"; break;
     case "drug-recommendation": title = "Drug Recommendor"; break;
     case "diagnosis": title = "Diagnoses Records"; break;
@@ -127,6 +125,7 @@ export default function TopBar(props) {
             {title}
           </Typography>
           <div className={classes.sectionDesktop}>
+            Hi, Dr. {userName}
             <IconButton
               edge="end"
               aria-label="account of current user"
