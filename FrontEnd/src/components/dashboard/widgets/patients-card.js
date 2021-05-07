@@ -38,7 +38,7 @@ submit: {
 
 export default function PatientsCard(props) {
   const classes = useStyles();
-  //const { patient, isEditable } = props;
+  const { patientsTotal} = props;
   return (
     <Paper className={classes.paper}  elevation={3}>
        <Grid container spacing={1}>
@@ -49,7 +49,7 @@ export default function PatientsCard(props) {
         </Grid>
         <Grid item xs={12}>
             <Typography variant="h1" className="s-title" align="center">
-                 30
+                 {patientsTotal}
             </Typography>
             <Typography variant="h6" align="center">
                  Total

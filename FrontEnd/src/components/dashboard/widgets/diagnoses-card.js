@@ -38,7 +38,7 @@ submit: {
 
 export default function DiagnosesCard(props) {
   const classes = useStyles();
-  //const { patient, isEditable } = props;
+  const { diagnosesCompleted,diagnosesInProgress} = props;
   return (
     <Paper className={classes.paper}  elevation={3}>
        <Grid container spacing={1}>
@@ -49,7 +49,7 @@ export default function DiagnosesCard(props) {
         </Grid>
         <Grid item xs={5}>
             <Typography variant="h1" className="s-title" align="center">
-                 20
+                 {diagnosesCompleted}
             </Typography>
             <Typography variant="h6" align="center">
                  Total
@@ -60,7 +60,7 @@ export default function DiagnosesCard(props) {
         </Grid>
         <Grid item xs={5}>
             <Typography variant="h1" className="s-title" align="center">
-                 8
+                 {diagnosesInProgress}
             </Typography>
             <Typography variant="h6" align="center">
                  In Progress
