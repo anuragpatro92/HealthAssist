@@ -8,7 +8,9 @@ import TopSymptomsChart from './../../components/dashboard/charts/top-symptoms-c
 import TopDiseasesChart from './../../components/dashboard/charts/top-diseases-chart';
 
 const useStyles = makeStyles((theme) => ({
-
+    mb2: {
+      marginBottom: 12
+    }
 }));
 
 export default function Dashboard() {
@@ -20,8 +22,8 @@ export default function Dashboard() {
   }, [])
   return (
       <>
-      <Typography variant="h4" className="s-title">
-         Welcome to Health Assist!!
+      <Typography variant="h6" className="s-title" style={{marginBottom: 12, marginTop: 12}}>
+        Overview
       </Typography>
       {/* <DiagnosesCard patient={patient} isEditable="true"/> */}
       <Grid container spacing={2}>
@@ -32,7 +34,9 @@ export default function Dashboard() {
              <PatientsCard isEditable="true"/>    
         </Grid> 
       </Grid>
-
+      <Typography variant="h6" className="s-title" style={{marginBottom: 12, marginTop: 12}}>
+       Analytics
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={6}>
             <TopSymptomsChart />

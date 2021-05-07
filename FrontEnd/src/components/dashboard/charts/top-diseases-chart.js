@@ -53,7 +53,7 @@ export default function TopDiseasesChart(props) {
       '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
     chart: {
       type: 'column',
-      backgroundColor : '#303030',
+      backgroundColor : '#424242',
       style: {
         fontFamily: '\'Unica One\', sans-serif'
     },

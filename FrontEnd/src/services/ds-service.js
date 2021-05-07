@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DS_API_BASE } from '../config/app-config';
+import { API_BASE, DS_API_BASE } from '../config/app-config';
 import {startLoader, stopLoader } from '../redux/actions/util-action';
 import diseases from '../mockData/diseases.json';
 import mockDrugs from '../mockData/drugRec.json';
@@ -45,12 +45,12 @@ export const getDrugRecommendations = (symptoms, disease, dispatch) => {
     return new Promise(async(resolve, reject) => {
         try {
             dispatch(startLoader());
-            const resp = await axios.post(`${DS_API_BASE}/drugReccomendation`, {symptoms, disease: disease.disease_name});
+            const resp = await axios.post(`${API_BASE}/diagnosis/drugReccomendation`, {symptoms, disease: disease.disease_name});
             dispatch(stopLoader());
             if(resp.status === 200) {
-                let drugList = [...resp.data.good_drugs, ...resp.data.bad_drugs];
-                let goodDrugs = new Set(resp.data.good_drugs);
-                let badDrugs = new Set(resp.data.bad_drugs);
+                let drugList = shuffle([...resp.data.content.good_drugs, ...resp.data.content.bad_drugs]);
+                let goodDrugs = new Set(resp.data.content.good_drugs);
+                let badDrugs = new Set(resp.data.content.bad_drugs);
                 resolve({drugList, goodDrugs, badDrugs});
             }
         }catch(e) {
@@ -62,3 +62,22 @@ export const getDrugRecommendations = (symptoms, disease, dispatch) => {
 
 
 
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+  

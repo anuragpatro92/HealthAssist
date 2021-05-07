@@ -1,4 +1,5 @@
 var express = require('express');
+var axios = require('axios');
 //const { getPatientDiagnosis } = require('../controllers/diagnosis/getPatientDiagnosis');
 const { addDiagnosis, updateDiagnosis} = require('../controllers/diagnosis/Diagnosis');
 const { getDiagnosisList } = require('../controllers/diagnosis/getDiagnosisList');
@@ -69,6 +70,36 @@ router.put('/:id', async(req, res) => {
       content: resp,
       msg: 'Diagnosis Updated successfully'
     });
+  }catch(e) {
+    res.status(200).send({
+      status: 'failure',
+      content: e,
+      msg: e.message
+    });
+  }
+});
+
+router.post('/drugReccomendation', async(req, res) => {
+  try {
+    const resp = await axios.post(`http://54.173.122.188:5000/api/drugReccomendation`, {
+      symptoms: req.body.symptoms,
+      disease: req.body.disease
+    });
+    if(resp.status === 200) {
+      const randomIntFromInterval = (min, max) => { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+      let good_drugs = resp.data.good_drugs.slice(0, randomIntFromInterval(50,150))
+      let bad_drugs = resp.data.bad_drugs.slice(0 ,  randomIntFromInterval(50,150))
+      res.status(200).send({
+        status: 'success',
+        content: {
+          good_drugs,
+          bad_drugs
+        },
+        msg: 'Fetched drug recommendations'
+      });
+    } 
   }catch(e) {
     res.status(200).send({
       status: 'failure',
