@@ -40,14 +40,8 @@ submit: {
 
 export default function TopDiseasesChart(props) {
   const classes = useStyles();
-  //const { patient, isEditable } = props;
-  const diseases =[
-    ['Fever', 24],
-    ['Cough', 20],
-    ['Cold', 14],
-    ['Headache', 13],
-    ['Neck Pain', 13]
-];
+  const { diseases } = props;
+  
   const optionsForTopDiseases = {
     colors: ['#2b908f', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
       '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
