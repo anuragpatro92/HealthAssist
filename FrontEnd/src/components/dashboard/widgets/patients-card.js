@@ -1,7 +1,7 @@
 import { Avatar, Box, Chip, Paper, Typography, Divider ,Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
+import LaunchIcon from '@material-ui/icons/Launch';
 import React from 'react';
 import { Link } from "react-router-dom";
 
@@ -52,7 +52,9 @@ export default function PatientsCard(props) {
                  {patientsTotal}
             </Typography>
             <Typography variant="h6" align="center">
-                 Total
+                 Total 
+                 
+                  {/* &nbsp; &nbsp; <LaunchIcon /> */}
             </Typography>
         </Grid>
         </Grid>         

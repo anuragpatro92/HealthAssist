@@ -113,7 +113,7 @@ export default function DrugSelector(props) {
     setChecked(not(checked, rightChecked));
   };
   const handleDrugSearch = (event) => {
-     setLeft(suggestedDrugs.filter(d => d.toLowerCase().includes(event.target.value.toLowerCase())))
+     setLeft(suggestedDrugs.drugList.filter(d => d.toLowerCase().includes(event.target.value.toLowerCase())))
   }
   const customList = (title, items) => (
     <Card className={classes.card}>
