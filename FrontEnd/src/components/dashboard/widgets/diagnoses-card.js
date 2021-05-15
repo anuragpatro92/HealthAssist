@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import React from 'react';
 import { Link } from "react-router-dom";
-
+import LaunchIcon from '@material-ui/icons/Launch';
 const useStyles = makeStyles((theme) => ({
   paper: {
         padding: "1rem",
@@ -63,7 +63,13 @@ export default function DiagnosesCard(props) {
                  {diagnosesInProgress}
             </Typography>
             <Typography variant="h6" align="center">
-                 In Progress
+                 In Progress &nbsp; &nbsp;
+                 {/* <Link to={{pathname:"/diagnosis", filters: {
+                    patient: "",
+                    sortOrder: 'latest',
+                    status: 'In Progress'
+                }}} > <LaunchIcon />
+                </Link> */}
             </Typography>
         </Grid>
         </Grid>         

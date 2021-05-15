@@ -117,7 +117,7 @@ export default function TopSymptomsChart(props) {
        <Grid container spacing={1}>
         <Grid item xs={12}>
             <Typography variant="h5" className="s-title" >
-                Top Symptoms
+                Most Frequent Symptoms
             </Typography>
         </Grid>
         <Grid item xs={12}>

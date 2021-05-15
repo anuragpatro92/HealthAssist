@@ -12,7 +12,7 @@ export const getDashboardData = (data)=>{
 
    if(data){
     data.map((item,index)=>{
-        if(item.status=="Completed") diagnosesCompleted++;
+        diagnosesCompleted++;
         if(item.status=="In Progress") diagnosesInProgress++;
 
         patientSet.add(item.patient_id._id);
